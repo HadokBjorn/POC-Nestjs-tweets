@@ -1,12 +1,12 @@
-import { IsEmpty, IsString, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
 export class CreateUserDTO {
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   username: string;
 
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   @IsUrl()
   avatar: string;
 }

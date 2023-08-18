@@ -1,11 +1,11 @@
-import { IsEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-export class createTweetDTO {
+export class CreateTweetDTO {
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   username: string;
 
   @IsString()
-  @IsEmpty()
+  @IsNotEmpty()
   tweet: string;
 }
