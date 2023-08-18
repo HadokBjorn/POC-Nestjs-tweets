@@ -8,4 +8,11 @@ export class Tweet {
     this.user = user;
     this.tweet = tweet;
   }
+
+  get _user() {
+    return this.user;
+  }
+  get _tweet() {
+    return this.tweet;
+  }
 }
