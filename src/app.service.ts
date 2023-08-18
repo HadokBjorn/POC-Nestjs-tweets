@@ -20,6 +20,14 @@ export class AppService {
 
   async createUser(body: CreateUserDTO) {
     const { username, avatar } = body;
+    const findUser = this.users.find(
+      (user: User) => user.username === username,
+    );
+
+    if (findUser) {
+      throw new HttpException('username already exist', HttpStatus.CONFLICT);
+    }
+
     this.users.push(new User(username, avatar));
     throw new HttpException('ok', HttpStatus.OK);
   }
