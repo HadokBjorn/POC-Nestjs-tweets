@@ -21,4 +21,9 @@ export class AppController {
   createTweet(@Body() body: CreateTweetDTO) {
     return this.appService.createTweet(body);
   }
+
+  @Get('/tweets')
+  getTweets() {
+    return this.appService.getTweets();
+  }
 }

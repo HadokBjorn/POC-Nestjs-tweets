@@ -21,7 +21,7 @@ export class AppService {
   async createUser(body: CreateUserDTO) {
     const { username, avatar } = body;
     const findUser = this.users.find(
-      (user: User) => user.username === username,
+      (user: User) => user._username === username,
     );
 
     if (findUser) {
@@ -35,12 +35,23 @@ export class AppService {
   async createTweet(body: CreateTweetDTO) {
     const { username, tweet } = body;
     const findUser = this.users.find(
-      (user: User) => user.username === username,
+      (user: User) => user._username === username,
     );
     if (!findUser) {
       throw new HttpException('username not exist', HttpStatus.UNAUTHORIZED);
     }
 
     return this.tweets.push(new Tweet(findUser, tweet));
+  }
+
+  getTweets() {
+    const fifteenRecentTweets = this.tweets.slice(-15);
+    const recentTweets = fifteenRecentTweets.reverse().map((tweet: Tweet) => ({
+      username: tweet._user._username,
+      avatar: tweet._user._avatar,
+      tweet: tweet._tweet,
+    }));
+
+    return recentTweets;
   }
 }
