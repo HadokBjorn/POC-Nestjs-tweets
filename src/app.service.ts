@@ -77,4 +77,14 @@ export class AppService {
 
     return recentTweets;
   }
+
+  getTweetsByUser(usernameParam: string) {
+    return this.tweets
+      .filter((tweet: Tweet) => tweet._user._username === usernameParam)
+      .map((tweet: Tweet) => ({
+        username: tweet._user._username,
+        avatar: tweet._user._avatar,
+        tweet: tweet._tweet,
+      }));
+  }
 }
