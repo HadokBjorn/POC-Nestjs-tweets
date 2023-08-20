@@ -29,7 +29,6 @@ export class AppService {
     }
 
     this.users.push(new User(username, avatar));
-    throw new HttpException('ok', HttpStatus.OK);
   }
 
   async createTweet(body: CreateTweetDTO) {
@@ -44,9 +43,33 @@ export class AppService {
     return this.tweets.push(new Tweet(findUser, tweet));
   }
 
-  getTweets() {
-    const fifteenRecentTweets = this.tweets.slice(-15);
-    const recentTweets = fifteenRecentTweets.reverse().map((tweet: Tweet) => ({
+  getTweets(pageNumber: string) {
+    const page = parseInt(pageNumber);
+    if (page < 1) {
+      throw new HttpException(
+        'Informe uma página válida!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (page >= 1) {
+      const pageInterval = 15;
+      const limit: number = pageInterval * page;
+      const offset: number = limit - pageInterval;
+      const pagination = [...this.tweets]
+        .reverse()
+        .slice(offset, limit)
+        .map((tweet: Tweet) => ({
+          username: tweet._user._username,
+          avatar: tweet._user._avatar,
+          tweet: tweet._tweet,
+        }));
+
+      return pagination;
+    }
+
+    const tweets = this.tweets.slice(-15);
+    const recentTweets = tweets.reverse().map((tweet: Tweet) => ({
       username: tweet._user._username,
       avatar: tweet._user._avatar,
       tweet: tweet._tweet,
